@@ -1,0 +1,149 @@
+import logging
+
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+
+def stworzTablice(n):
+    tablica = [[0 for _ in range(n)] for _ in range(n)]
+    logging.info('Utworzono tablice')
+    return [[0] * n for _ in range(n)]
+
+def wypelnijCwiartke(start_row, start_col, n, counter, tab):
+    r, c = 0, n // 2 #pozycja startowa (pierwszy wiersz, srodkowa kolumna cwiartki)
+    for _ in range(n * n):
+        #ustawienie wartosci komorki
+        tab[start_row + r][start_col + c] = next(counter)
+
+        #przejscie do nowej komorki
+        nr = (r - 1) % n
+        nc = (c + 1) % n
+
+        #kolizja
+        if tab[start_row + nr][start_col + nc] != 0:
+            r = (r + 1) % n
+        else:
+            r = nr
+            c = nc
+
+def uzupelnijTablice(tablica, n):
+    if n % 2 == 1:
+        logging.info('Typ kwadratu: nieparzysty')
+        #definicja startowej komorki
+        row = 0
+        col = n // 2 
+
+        for i in range(1, n**2 + 1):
+            #ustawienie wartosci komorki
+            tablica[row][col] = i
+
+            #przejscie do nowej komorki
+            next_row = (row - 1) % n
+            next_col = (col + 1) % n
+
+            #kolizja
+            if tablica[next_row][next_col] != 0:
+                row = (row + 1) % n
+            else:
+                row = next_row
+                col = next_col
+            
+        return tablica
+
+    elif n % 4 == 0:
+        logging.info('Typ kwadratu: doubly even')
+        iterator = 1
+
+        #wypelniamy tablice kolejnymi wartosciami
+        for r in range(n):
+            for c in range(n):
+                tablica[r][c] = iterator
+                iterator += 1
+        
+        mask = {(0,0), (0,3), (3,0), (3,3), (1,1), (1,2), (2,1), (2,2)} #pozycje miedzy ktorymi odwracamy wartosci
+        #petle obslugujace bloki 4x4
+        for block_row in range(0, n, 4):
+            for block_col in range(0, n, 4):
+                #petle obslugujace komorki w danym bloku
+                for i in range(4):
+                    for j in range(4):
+                        if (i, j) in mask:
+                            row , col = block_row + i, block_col + j
+                            tablica[row][col] = n**2 + 1 - tablica[row][col]
+
+        return tablica
+    
+    else:
+        logging.info('Typ kwadratu: singly even')
+        m = n // 2
+        k = (m - 1) // 2
+        licznik = iter(range(1, n*n + 1))
+
+        #wypelnianie cwiartek 1 -> 4 -> 2 -> 3
+        wypelnijCwiartke(0, 0, m, licznik, tablica) #A
+        wypelnijCwiartke(m, m, m, licznik, tablica) #B
+        wypelnijCwiartke(0, m, m, licznik, tablica) #C
+        wypelnijCwiartke(m, 0, m, licznik, tablica) #D
+
+        #zmiana k pierwszych kolumn A<->D
+        for r in range(m):
+            for c in range(k):
+                tablica[r][c], tablica[r+m][c] = tablica[r+m][c], tablica[r][c]
+
+        #zmiana k-1 ostatnich kolumn C<->B
+        for r in range(m):
+            for c in range(n - (k - 1), n):
+                tablica[r][c], tablica[r+m][c] = tablica[r+m][c], tablica[r][c]
+
+        #A(0, m)A(m, m) <-> D(0, m)D(m, m)
+        #wspolrzedne cwiartek
+        ax, ay = 0, 0
+        dx, dy = m, 0
+
+        #wspolrzedne komorek
+        x1, y1 = m // 2, 0
+        x2, y2 = m // 2, m // 2
+
+        h1, h2 = tablica[ax + x1][ay + y1], tablica[ax + x2][ay + y2]
+        tablica[ax + x1][ay + y1], tablica[ax + x2][ay + y2] = tablica[dx + x1][dy + y1], tablica[dx + x2][dy + y2]
+        tablica[dx + x1][dy + y1], tablica[dx + x2][dy + y2] = h1, h2
+
+        return tablica
+    
+
+def wypiszTablice(tablica, n):
+    logging.info('Wypisywanie tablicy do terminala')
+
+    for row in tablica:
+        print(''.join(f'{col:4}' for col in row))
+
+    #weryfikacja
+    row_sum = [sum(row) for row in tablica]
+    col_sum = [sum(col) for col in zip(*tablica)]
+
+    diag = reverse_diag = 0
+    for i in range(n):
+        diag += tablica[i][i]
+        reverse_diag += tablica[i][n - 1 - i]
+
+    print("Suma wierszy:")
+    for i, s in enumerate(row_sum, start=1):
+        print(f"\tWiersz {i}: {s}")
+
+    print("Suma kolumn:")
+    for j, s in enumerate(col_sum, start=1):
+        print(f"\tKolumna {j}: {s}")
+
+    print("Suma przekątnych:")
+    print(f"\tGłówna przekątna: {diag}")
+    print(f"\tPrzeciwna przekątna: {reverse_diag}")
+
+    return
+
+#main
+n = int(input("Podaj wartosc boku kwadratu: "))
+tab = stworzTablice(n)
+
+uzupelnijTablice(tab, n)
+wypiszTablice(tab, n)
