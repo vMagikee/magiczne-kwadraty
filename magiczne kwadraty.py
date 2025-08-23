@@ -6,7 +6,6 @@ logging.basicConfig(
 )
 
 def stworzTablice(n):
-    tablica = [[0 for _ in range(n)] for _ in range(n)]
     logging.info('Utworzono tablice')
     return [[0] * n for _ in range(n)]
 
@@ -120,21 +119,19 @@ def wypiszTablice(tablica, n):
 
     #weryfikacja
     row_sum = [sum(row) for row in tablica]
+    print("Suma wierszy:")
+    for i, s in enumerate(row_sum, start=1):
+        print(f"\tWiersz {i}: {s}")
+
     col_sum = [sum(col) for col in zip(*tablica)]
+    print("Suma kolumn:")
+    for j, s in enumerate(col_sum, start=1):
+        print(f"\tKolumna {j}: {s}")
 
     diag = reverse_diag = 0
     for i in range(n):
         diag += tablica[i][i]
         reverse_diag += tablica[i][n - 1 - i]
-
-    print("Suma wierszy:")
-    for i, s in enumerate(row_sum, start=1):
-        print(f"\tWiersz {i}: {s}")
-
-    print("Suma kolumn:")
-    for j, s in enumerate(col_sum, start=1):
-        print(f"\tKolumna {j}: {s}")
-
     print("Suma przekątnych:")
     print(f"\tGłówna przekątna: {diag}")
     print(f"\tPrzeciwna przekątna: {reverse_diag}")
