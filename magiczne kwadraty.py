@@ -107,36 +107,36 @@ def uzupelnijTablice(tablica, n):
         return tablica
     
 
-def wypiszTablice(tablica, n):
+def podsumowanieTablicy(tablica, n):
     logging.info('Wypisywanie tablicy do terminala')
 
-    for row in tablica:
-        print(''.join(f'{col:4}' for col in row))
-
-    #weryfikacja
+    #obliczenia
     row_sum = [sum(row) for row in tablica]
-    print("Suma wierszy:")
-    for i, s in enumerate(row_sum, start=1):
-        print(f"\tWiersz {i}: {s}")
-
     col_sum = [sum(col) for col in zip(*tablica)]
-    print("Suma kolumn:")
-    for j, s in enumerate(col_sum, start=1):
-        print(f"\tKolumna {j}: {s}")
+    diag = sum(tablica[i][i] for i in range(n))
+    reverse_diag = sum(tablica[i][n - 1- i] for i in range(n))
 
-    diag = reverse_diag = 0
-    for i in range(n):
-        diag += tablica[i][i]
-        reverse_diag += tablica[i][n - 1 - i]
-    print("Suma przekątnych:")
-    print(f"\tGłówna przekątna: {diag}")
-    print(f"\tPrzeciwna przekątna: {reverse_diag}")
-
-    return
+    return {
+        "tablica": tablica,
+        "suma_wierszy": row_sum,
+        "suma_kolumn": col_sum,
+        "suma_przekatnych": {
+            "glowna": diag,
+            "przeciwna": reverse_diag
+        }
+    }
 
 #main
 n = int(input("Podaj wartosc boku kwadratu: "))
 tab = stworzTablice(n)
-
 uzupelnijTablice(tab, n)
-wypiszTablice(tab, n)
+wyniki = podsumowanieTablicy(tab, n)
+
+#print do konsoli
+print("Kwadrat magiczny:")
+for row in wyniki["tablica"]:
+    print("".join(f"{col:4}" for col in row))
+
+print("\nSuma wierszy:", wyniki["suma_wierszy"])
+print("Suma kolumn:", wyniki["suma_kolumn"])
+print("Suma przekątnych:", wyniki["suma_przekatnych"])
