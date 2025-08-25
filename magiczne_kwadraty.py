@@ -126,17 +126,17 @@ def podsumowanieTablicy(tablica, n):
         }
     }
 
-#main
-n = int(input("Podaj wartosc boku kwadratu: "))
-tab = stworzTablice(n)
-uzupelnijTablice(tab, n)
-wyniki = podsumowanieTablicy(tab, n)
+if __name__ == '__main__':
+    n = int(input("Podaj wartosc boku kwadratu: "))
+    tab = stworzTablice(n)
+    uzupelnijTablice(tab, n)
+    wyniki = podsumowanieTablicy(tab, n)
 
-#print do konsoli
-print("Kwadrat magiczny:")
-for row in wyniki["tablica"]:
-    print("".join(f"{col:4}" for col in row))
+    #print do konsoli
+    print("Kwadrat magiczny:")
+    for row in wyniki["tablica"]:
+        print("".join(f"{col:4}" for col in row))
 
-print("\nSuma wierszy:", wyniki["suma_wierszy"])
-print("Suma kolumn:", wyniki["suma_kolumn"])
-print("Suma przekątnych:", wyniki["suma_przekatnych"])
+    print("\nSuma wierszy:", wyniki["suma_wierszy"])
+    print("Suma kolumn:", wyniki["suma_kolumn"])
+    print("Suma przekątnych:", wyniki["suma_przekatnych"])
