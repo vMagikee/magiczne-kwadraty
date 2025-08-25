@@ -1,6 +1,17 @@
 # Magiczne Kwadraty
 
+**Disclaimer:** Cały kod w tym projekcie został napisany przeze mnie.  
+AI było wykorzystywane jedynie do weryfikacji jakości kodu, podpowiedzi architektury, sugestii dotyczących struktury projektu oraz wygenerowania tego readme :).
+
+
 Projekt w Pythonie do generowania **kwadratów magicznych** różnych rozmiarów oraz wyświetlania ich w GUI (Tkinter).
+
+---
+
+## Cel projektu
+- nauka programowania algorytmów, bez dodatkowych bibliotek(np. numpy)
+- nauka wdrażania interfejsów graficznych przez bibliotekę tkinter
+- nauka pisania testów aplikacji
 
 ---
 
