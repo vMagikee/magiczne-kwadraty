@@ -13,6 +13,7 @@ def siamese(start_row, start_col, n, counter, tab):
     r, c = 0, n // 2 #pozycja startowa (pierwszy wiersz, srodkowa kolumna cwiartki)
     for _ in range(n * n):
         #ustawienie wartosci komorki
+        logging.info(f'start_row: {start_row}, start_col: {start_col} \nr: {r}, c: {c}')
         tab[start_row + r][start_col + c] = next(counter)
 
         #przejscie do nowej komorki
@@ -84,11 +85,9 @@ def uzupelnijTablice(tablica, n):
     if n % 2 == 1:
         logging.info('Typ kwadratu: nieparzysty')
         #definicja startowej komorki
-        row = 0
-        col = n // 2
         licznik = iter(range(1, n*n + 1))
 
-        siamese(row, col, n, licznik, tablica)
+        siamese(0, 0, n, licznik, tablica)
             
         return tablica
 
