@@ -4,7 +4,7 @@
 AI było wykorzystywane jedynie do weryfikacji jakości kodu, podpowiedzi architektury, sugestii dotyczących struktury projektu oraz wygenerowania tego readme :).
 
 
-Projekt w Pythonie do generowania **kwadratów magicznych** różnych rozmiarów oraz wyświetlania ich w GUI (Tkinter).
+Projekt w Pythonie do generowania **magicznych kwadratów** różnych rozmiarów oraz wyświetlania ich w GUI (Tkinter).
 
 ---
 
@@ -21,13 +21,16 @@ Projekt w Pythonie do generowania **kwadratów magicznych** różnych rozmiarów
 magiczne-kwadraty/
 │
 ├── src/
+│   ├── __init__.py
 │   ├── __main__.py
 │   ├── magiczne_kwadraty.py    # logika obliczeń
 │   └── gui.py                  # interfejs użytkownika (Tkinter)
 │
 ├── tests/
+│   ├── __init__.py
 │   └── test_magiczne_kwadraty.py  # testy jednostkowe (pytest)
 │
+├── pytest.ini
 ├── requirements.txt
 └── README.md
 ```
@@ -50,7 +53,7 @@ magiczne-kwadraty/
 
 ## 🧪 Testy
 
-Projekt wykorzystuje **pytest** do testowania logiki generowania kwadratów magicznych.
+Projekt wykorzystuje **pytest** do testowania logiki generowania magicznych kwadratów.
 
 Uruchomienie testów:
 ```
@@ -69,7 +72,7 @@ pytest
 
 ## ✨ Funkcje
 
-- Generowanie kwadratów magicznych:
+- Generowanie magicznych kwadratów:
   - Nieparzyste
   - Podzielne przez 4 (doubly even)
   - Podzielne przez 2, ale nie przez 4 (singly even)
